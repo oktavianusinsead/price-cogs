@@ -1,4 +1,4 @@
-# REST API Bababos COGS
+# REST API  COGS
 
 ## Getting Started
 
