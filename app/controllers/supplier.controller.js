@@ -13,7 +13,7 @@ exports.create = (req, res) => {
   }
 
   // Create a Customer
-  const customer = {
+  const supplier = {
     supplier_id: req.body.supplier_id,
     supplier_name: req.body.supplier_name,
     address: req.body.address,
@@ -23,29 +23,29 @@ exports.create = (req, res) => {
   };
 
   // Save Book in database
-  Customer.create(customer)
+  Supplier.create(supplier)
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
-        message: err.message || "Some error occurred while creating the Book."
+        message: err.message || "Some error occurred while creating the Supplier."
       });
     });
 };
 
 // Retrieve all Books from the database.
 exports.findAll = (req, res) => {
-  const customer_name = req.query.customer_name;
-  var condition = customer_name ? { customer_name: { [Op.like]: `%${customer_name}%` } } : null;
+  const supplier_name = req.query.supplier_name;
+  var condition = supplier_name ? { supplier_name: { [Op.like]: `%${supplier_name}%` } } : null;
 
-  Customer.findAll({ where: condition })
+  Supplier.findAll({ where: condition })
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.send(500).send({
-        message: err.message || "Some error accurred while retrieving books."
+        message: err.message || "Some error accurred while retrieving Suppliers."
       });
     });
 };
@@ -54,13 +54,13 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Customer.findByPk(id)
+  Supplier.findByPk(id)
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
-        message: `Error retrieving Book with id = ${id}`
+        message: `Error retrieving Supplier with id = ${id}`
       });
     });
 };
@@ -69,23 +69,23 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   const id = req.params.id;
 
-  Customer.update(req.body, {
+  Supplier.update(req.body, {
     where: { id: id }
   })
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "Customer was updated successfully."
+          message: "Supplier was updated successfully."
         });
       } else {
         res.send({
-          message: `Cannot update Customer with id=${id}. Maybe Book was not found or req.body is empty!`
+          message: `Cannot update Supplier with id=${id}. Maybe Supplier was not found or req.body is empty!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error updating Customer with id=" + id
+        message: "Error updating Supplier with id=" + id
       });
     });
 };
@@ -94,39 +94,39 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Customer.destroy({
+  Supplier.destroy({
     where: { id: id }
   })
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "Customer was deleted successfully!"
+          message: "Supplier was deleted successfully!"
         });
       } else {
         res.send({
-          message: `Cannot delete Customer with id=${id}. Maybe Customer was not found!`
+          message: `Cannot delete Supplier with id=${id}. Maybe Supplier was not found!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Could not delete Customer with id=" + id
+        message: "Could not delete Supplier with id=" + id
       });
     });
 };
 
 // Delete all Books from the database.
 exports.deleteAll = (req, res) => {
-  Customer.destroy({
+  Supplier.destroy({
     where: {},
     truncate: false
   })
     .then(nums => {
-      res.send({ message: `${nums} Customer were deleted successfully!` });
+      res.send({ message: `${nums} Supplier were deleted successfully!` });
     })
     .catch(err => {
       res.status(500).send({
-        message: err.message || "Some error occurred while removing all customer."
+        message: err.message || "Some error occurred while removing all Supplier."
       });
     });
 };
