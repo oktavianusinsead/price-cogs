@@ -9,6 +9,9 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         autoIncrement: true,
         primaryKey: true
       },
+      customer_id: {
+        type: DataTypes.STRING
+      },
       customer_name: {
         type: DataTypes.STRING
       },

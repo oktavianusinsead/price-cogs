@@ -1,29 +1,28 @@
-const { authJwt } = require("../middlewares");
-const controller = require("../controllers/user.controller");
+module.exports = app => {
+  const customerController = require("../controllers/customer.controller.js");
 
-module.exports = function(app) {
-  app.use(function(req, res, next) {
-    res.header(
-      "Access-Control-Allow-Headers",
-      "x-access-token, Origin, Content-Type, Accept"
-    );
+  const router = require("express").Router();
 
-    next();
-  });
+  // Create a new Customer
+  router.post("/", customerController.create);
 
-  app.get("/api/customer/all", controller.allAccess);
+  // Retrieve all Customer
+  router.get("/", customerController.findAll);
 
-  app.get("/api/customer/user", [authJwt.verifyToken], controller.userBoard);
+  // // Retrieve all published Books
+  // router.get("/published", bookController.findAllPublished);
 
-  app.get(
-    "/api/customer/mod",
-    [authJwt.verifyToken, authJwt.isModerator],
-    controller.moderatorBoard
-  );
+  // Retrieve a single Customer with id
+  router.get("/:id", customerController.findOne);
 
-  app.get(
-    "/api/customer/admin",
-    [authJwt.verifyToken, authJwt.isAdmin],
-    controller.adminBoard
-  );
+  // Update a Customer with id
+  router.put("/:id", customerController.update);
+
+  // Delete a Customer with id
+  router.delete("/:id", customerController.delete);
+
+  // // Delete all Books
+  // router.delete("/", bookController.deleteAll);
+
+  app.use("/api/customers", router);
 };
