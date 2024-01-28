@@ -34,6 +34,7 @@ db.logistic= require("./logistic.model.js")(sequelize,Sequelize,DataTypes);
 db.rfqcustomer= require("./rfqcustomer.model.js")(sequelize,Sequelize,DataTypes);
 db.pricelist= require("./pricelist.model.js")(sequelize,Sequelize,DataTypes);
 db.po= require("./po.model.js")(sequelize,Sequelize,DataTypes);
+db.product= require("./product.model.js")(sequelize,Sequelize,DataTypes);
 
 
 db.role.belongsToMany(db.user, {

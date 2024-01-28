@@ -1,51 +1,51 @@
 const db = require("../models");
-const Product = db.product;
+const Supplier = db.customer;
 const Op = db.Op;
 
 // Create and Save a new Book
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.Product_id) {
+  if (!req.body.supplier_id) {
     res.status(400).send({
       message: "Content can not be empty!"
     });
     return;
   }
 
-  // Create a product
-  const product = {
-    product_id: req.body.product_id,
-    product_name: req.body.product_name,
+  // Create a Customer
+  const supplier = {
+    supplier_id: req.body.supplier_id,
+    supplier_name: req.body.supplier_name,
     address: req.body.address,
     city: req.body.city,
     state: req.body.state,
     
   };
 
-  // Save product in database
-  Product.create(product)
+  // Save Book in database
+  Supplier.create(supplier)
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
-        message: err.message || "Some error occurred while creating the Product."
+        message: err.message || "Some error occurred while creating the Supplier."
       });
     });
 };
 
 // Retrieve all Books from the database.
 exports.findAll = (req, res) => {
-  const product_name = req.query.product_name;
-  var condition = product_name ? { product_name: { [Op.like]: `%${product_name}%` } } : null;
+  const supplier_name = req.query.supplier_name;
+  var condition = supplier_name ? { supplier_name: { [Op.like]: `%${supplier_name}%` } } : null;
 
-  Product.findAll({ where: condition })
+  Supplier.findAll({ where: condition })
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.send(500).send({
-        message: err.message || "Some error accurred while retrieving Products."
+        message: err.message || "Some error accurred while retrieving Suppliers."
       });
     });
 };
@@ -54,13 +54,13 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Product.findByPk(id)
+  Supplier.findByPk(id)
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
-        message: `Error retrieving Product with id = ${id}`
+        message: `Error retrieving Supplier with id = ${id}`
       });
     });
 };
@@ -69,23 +69,23 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   const id = req.params.id;
 
-  Product.update(req.body, {
+  Supplier.update(req.body, {
     where: { id: id }
   })
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "Product was updated successfully."
+          message: "Supplier was updated successfully."
         });
       } else {
         res.send({
-          message: `Cannot update Product with id=${id}. Maybe Product was not found or req.body is empty!`
+          message: `Cannot update Supplier with id=${id}. Maybe Supplier was not found or req.body is empty!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error updating Product with id=" + id
+        message: "Error updating Supplier with id=" + id
       });
     });
 };
@@ -94,39 +94,39 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Product.destroy({
+  Supplier.destroy({
     where: { id: id }
   })
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "Product was deleted successfully!"
+          message: "Supplier was deleted successfully!"
         });
       } else {
         res.send({
-          message: `Cannot delete Product with id=${id}. Maybe Product was not found!`
+          message: `Cannot delete Supplier with id=${id}. Maybe Supplier was not found!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Could not delete Product with id=" + id
+        message: "Could not delete Supplier with id=" + id
       });
     });
 };
 
 // Delete all Books from the database.
 exports.deleteAll = (req, res) => {
-  Product.destroy({
+  Supplier.destroy({
     where: {},
     truncate: false
   })
     .then(nums => {
-      res.send({ message: `${nums} Product were deleted successfully!` });
+      res.send({ message: `${nums} Supplier were deleted successfully!` });
     })
     .catch(err => {
       res.status(500).send({
-        message: err.message || "Some error occurred while removing all Product."
+        message: err.message || "Some error occurred while removing all Supplier."
       });
     });
 };
